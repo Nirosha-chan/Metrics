@@ -7,7 +7,7 @@ metrics_map = {
         FROM sales_order_row sr
         JOIN sales_orders s ON sr.sales_order_id = s.id
         JOIN items i ON sr.item_id = i.id
-        WHERE s.organization_id = 10
+        WHERE s.organization_id = %(organization_id)s
         {time_filter}
         GROUP BY i.name
         ORDER BY total_quantity_sold {order_direction}
@@ -22,7 +22,7 @@ metrics_map = {
         FROM sales_order_row sr
         JOIN sales_orders s ON sr.sales_order_id = s.id
         JOIN items i ON sr.item_id = i.id
-        WHERE s.organization_id = 10
+        WHERE s.organization_id = %(organization_id)s
         {time_filter}
         GROUP BY i.name
         ORDER BY total_revenue {order_direction}
@@ -37,7 +37,7 @@ metrics_map = {
         FROM sales_order_row sr
         JOIN sales_orders s ON sr.sales_order_id = s.id
         JOIN items i ON sr.item_id = i.id
-        WHERE s.organization_id = 10
+        WHERE s.organization_id = %(organization_id)s
         {time_filter}
         GROUP BY i.name
         ORDER BY total_profit {order_direction}
@@ -54,7 +54,7 @@ metrics_map = {
         FROM sales_order_row sr
         JOIN sales_orders s ON sr.sales_order_id = s.id
         JOIN items i ON sr.item_id = i.id
-        WHERE s.organization_id = 10
+        WHERE s.organization_id = %(organization_id)s
         {time_filter}
         GROUP BY i.name
         HAVING total_revenue > 0
@@ -70,7 +70,7 @@ metrics_map = {
         FROM sales_order_row sr
         JOIN sales_orders s ON sr.sales_order_id = s.id
         JOIN items i ON sr.item_id = i.id
-        WHERE s.organization_id = 10
+        WHERE s.organization_id = %(organization_id)s
         {time_filter}
         GROUP BY i.name
         ORDER BY total_revenue {order_direction}
@@ -85,7 +85,7 @@ metrics_map = {
         FROM sales_order_row sr
         JOIN sales_orders s ON sr.sales_order_id = s.id
         JOIN items i ON sr.item_id = i.id
-        WHERE s.organization_id = 10
+        WHERE s.organization_id = %(organization_id)s
         {time_filter}
         GROUP BY i.name
         ORDER BY total_cogs {order_direction}
@@ -100,7 +100,7 @@ metrics_map = {
         FROM sales_order_row sr
         JOIN sales_orders s ON sr.sales_order_id = s.id
         JOIN items i ON sr.item_id = i.id
-        WHERE s.organization_id = 10
+        WHERE s.organization_id = %(organization_id)s
         {time_filter}
         GROUP BY i.name
         ORDER BY total_profit {order_direction}
@@ -115,7 +115,7 @@ metrics_map = {
         FROM sales_order_row sr
         JOIN sales_orders s ON sr.sales_order_id = s.id
         JOIN items i ON sr.item_id = i.id
-        WHERE s.organization_id = 10
+        WHERE s.organization_id = %(organization_id)s
         {time_filter}
         GROUP BY i.name
         HAVING SUM(sr.quantity * sr.cost_per_unit) > 0
@@ -131,7 +131,7 @@ metrics_map = {
         FROM sales_order_row sr
         JOIN sales_orders s ON sr.sales_order_id = s.id
         JOIN customers c ON s.customer_id = c.id
-        WHERE s.organization_id = 10
+        WHERE s.organization_id = %(organization_id)s
         {time_filter}
         GROUP BY c.company_name
         ORDER BY total_revenue {order_direction}
@@ -143,7 +143,7 @@ metrics_map = {
         SELECT
             SUM(po.total) AS total_purchase_spend
         FROM purchase_orders po
-        WHERE po.organization_id = 10
+        WHERE po.organization_id =  %(organization_id)s
         {time_filter};
     """,
 
@@ -152,7 +152,7 @@ metrics_map = {
         SELECT
             COUNT(po.id) AS total_purchase_orders
         FROM purchase_orders po
-        WHERE po.organization_id = 10
+        WHERE po.organization_id =  %(organization_id)s
         {time_filter};
     """,
 
@@ -161,7 +161,7 @@ metrics_map = {
         SELECT
             COUNT(mo.id) AS total_production_orders
         FROM manufacturing_order mo
-        WHERE mo.organization = 10
+        WHERE mo.organization =  %(organization_id)s
         {time_filter};
     """,
 
@@ -176,7 +176,7 @@ metrics_map = {
         FROM sales_order_row sr
         JOIN sales_orders s ON sr.sales_order_id = s.id
         JOIN items i ON sr.item_id = i.id
-        WHERE s.organization_id = 10
+        WHERE s.organization_id = %(organization_id)s
         {time_filter}
         GROUP BY i.name;
     """,
@@ -190,7 +190,7 @@ metrics_map = {
                 COUNT(DISTINCT s.id) AS total_orders,
                 SUM(s.total) AS total_revenue
             FROM sales_orders s
-            WHERE s.organization_id = 10
+            WHERE s.organization_id = %(organization_id)s
             {time_filter}
             GROUP BY s.customer_id
         )
@@ -209,7 +209,7 @@ metrics_map = {
             SUM(s.total) AS total_revenue
         FROM sales_orders s
         JOIN customers c ON s.customer_id = c.id
-        WHERE s.organization_id = 10
+        WHERE s.organization_id = %(organization_id)s
         {time_filter}
         GROUP BY c.id, c.company_name
         ORDER BY total_revenue {order_direction}
@@ -228,7 +228,7 @@ metrics_map = {
         JOIN sales_orders s ON sr.sales_order_id = s.id
         JOIN customers c ON s.customer_id = c.id
         JOIN items i ON sr.item_id = i.id
-        WHERE s.organization_id = 10
+        WHERE s.organization_id = %(organization_id)s
         {time_filter}
         GROUP BY c.id, c.company_name
         ORDER BY revenue {order_direction};
