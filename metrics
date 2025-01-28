@@ -237,6 +237,6 @@ metrics_map = {
         {time_filter}
         GROUP BY c.id, c.company_name
         ORDER BY revenue {order_direction};
-    """,
+    """
 
 }
