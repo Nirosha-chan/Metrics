@@ -80,16 +80,16 @@ metrics_map = {
     # 6. Top or Low Cost of Goods Sold (COGS) from Sales Orders
     'sales_order_cogs': """
         SELECT
-            i.name AS product_name,
-            SUM(sr.quantity * i.buying_price) AS total_cogs
+            i.name AS 'name',
+            SUM(sr.quantity * i.buying_price) AS cogs
         FROM sales_order_row sr
         JOIN sales_orders s ON sr.sales_order_id = s.id
         JOIN items i ON sr.item_id = i.id
-        WHERE s.organization_id = %(organization_id)s
-        {time_filter}
-        GROUP BY i.name
-        ORDER BY total_cogs {order_direction}
-        LIMIT {limit};
+        WHERE s.organization_id = 10
+        GROUP BY i.id, i.name
+        ORDER BY cogs DESC
+        LIMIT 5;
+
     """,
 
     # 7. Top or Low Profit from Sales Orders
