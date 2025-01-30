@@ -156,16 +156,7 @@ metrics_map = {
         {time_filter};
     """,
 
-    # 12. Total Production Orders
-    'production_orders': """
-        SELECT
-            COUNT(mo.id) AS total_production_orders
-        FROM manufacturing_order mo
-        WHERE mo.organization =  %(organization_id)s
-        {time_filter};
-    """,
-
-    # 13. Revenue, COGS, Profit, Profit Margin
+    # 12. Revenue, COGS, Profit, Profit Margin
     'revenue_cogs_profit_query': """
         SELECT
             i.name AS product_name,
@@ -181,7 +172,7 @@ metrics_map = {
         GROUP BY i.name;
     """,
 
-    # 14. Customer Metrics
+    # 13. Customer Metrics
     'customer_metrics_query': """
         WITH customer_orders AS (
             SELECT
@@ -202,7 +193,7 @@ metrics_map = {
         FROM customer_orders co;
     """,
 
-    # 15. Top Customers by Revenue
+    # 14. Top Customers by Revenue
     'top_customers_query': """
         SELECT
             c.company_name,
@@ -216,7 +207,7 @@ metrics_map = {
         LIMIT 15;
     """,
     
-    # 16. Customer Performance Report
+    # 15. Customer Performance Report
     'customer_performance_query': """
         SELECT
             c.company_name,
