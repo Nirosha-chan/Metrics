@@ -11,11 +11,5 @@ time_filters = {
         'quarterly': "AND YEAR(po.order_date) = %(year)s AND QUARTER(po.order_date) = %(quarter)s",
         'half_yearly': "AND YEAR(po.order_date) = %(year)s AND CASE WHEN MONTH(po.order_date) BETWEEN 1 AND 6 THEN 1 ELSE 2 END = %(half_year)s",
         'annually': "AND YEAR(po.order_date) = %(year)s"
-    },
-    'manufacturing_order': {  # Updated table name
-        'monthly': "AND YEAR(mo.order_created_date) = %(year)s AND MONTH(mo.order_created_date) = %(month)s",
-        'quarterly': "AND YEAR(mo.order_created_date) = %(year)s AND QUARTER(mo.order_created_date) = %(quarter)s",
-        'half_yearly': "AND YEAR(mo.order_created_date) = %(year)s AND CASE WHEN MONTH(mo.order_created_date) BETWEEN 1 AND 6 THEN 1 ELSE 2 END = %(half_year)s",
-        'annually': "AND YEAR(mo.order_created_date) = %(year)s"
     }
 }
