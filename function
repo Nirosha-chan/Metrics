@@ -158,3 +158,31 @@ result_revenue = sales_order_time_filter_query(
     specific_period='2025-02'
 )
 print("Customer performance :", result_revenue)
+
+item_sku = fetch_item_details(
+    identifier='1051',
+    identifier_type='sku',
+    time_period='monthly',
+    specific_period='2025-01',
+    organization_id='10'
+)
+print("Item Details by SKU:", item_sku)
+
+item_name = fetch_item_details(
+    identifier='Item 1',
+    identifier_type='name',
+    time_period='monthly',
+    specific_period='2025-01',
+    organization_id='10'
+)
+print("Item Details by Name:", item_name)
+
+result_customer_metrics = fetch_customer_details_by_name(
+    contact_name='Rajesh',
+    organization_id='10',
+    time_period='annually',  # This can be monthly, quarterly, half_yearly, or annually
+    specific_period='2024',  # Pass the year for annual query
+    limit=10
+)
+
+print("Customer query:", result_customer_metrics)
