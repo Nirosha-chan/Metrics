@@ -174,7 +174,6 @@ metrics_map = {
 
     # 13. Customer Metrics
     'customer_metrics_query': """
-        WITH customer_orders AS (
             SELECT
                 s.customer_id,
                 MIN(s.order_date) AS first_order_date,
@@ -184,13 +183,8 @@ metrics_map = {
             WHERE s.organization_id = %(organization_id)s
             {time_filter}
             GROUP BY s.customer_id
-        )
-        SELECT
-            COUNT(DISTINCT co.customer_id) AS total_customers,
-            SUM(co.total_orders) AS total_sales_orders,
-            SUM(CASE WHEN co.first_order_date < %(period_start)s THEN co.total_revenue ELSE 0 END) AS first_order_revenue,
-            SUM(CASE WHEN co.first_order_date >= %(period_start)s THEN co.total_revenue ELSE 0 END) AS returning_customer_revenue
-        FROM customer_orders co;
+            LIMIT 5;
+
     """,
 
     # 14. Top Customers by Revenue
@@ -206,7 +200,7 @@ metrics_map = {
         ORDER BY total_revenue {order_direction}
         LIMIT 15;
     """,
-    
+
     # 15. Customer Performance Report
     'customer_performance_query': """
         SELECT
@@ -225,4 +219,45 @@ metrics_map = {
         ORDER BY revenue {order_direction};
     """,
 
+    #16.Items by SKU
+    'item_sku' : """
+        SELECT i.name, i.buying_price, i.selling_price
+        FROM items i
+        JOIN sales_orders s ON s.id = i.id
+        WHERE i.sku = %(sku)s AND i.organization_id = %(organization_id)s
+        {time_filter}
+        GROUP BY i.id
+        LIMIT %(limit)s;
+        """,
+
+    #17.Items by name
+    'item_name' : """
+        SELECT i.sku, i.buying_price, i.selling_price
+        FROM items i
+        JOIN sales_orders s ON s.id = i.id
+        WHERE i.name = %(name)s AND i.organization_id = %(organization_id)s
+        {time_filter}
+        GROUP BY i.id
+        LIMIT %(limit)s;
+      """,
+
+    #17.Search customers by name
+    'customers_by_name' : """
+        SELECT
+            c.contact_name,
+            c.company_name,
+            c.contact_email,
+            c.contact_phone,
+            CONCAT(b.street, ', ', b.city, ', ', b.state, ', ', b.zipcode) AS billing_address,
+            CONCAT(s.street, ', ', s.city, ', ', s.state, ', ', s.zipcode) AS shipping_address
+        FROM customers c
+        LEFT JOIN addresses b ON c.billing_address = b.id
+        LEFT JOIN addresses s ON c.shipping_address = s.id
+        WHERE c.organization_id = %(organization_id)s
+        AND c.contact_name = %(contact_name)s
+        {time_filter}
+        ORDER BY c.created_at {order_direction}
+        LIMIT %(limit)s;
+
+    """
 }
